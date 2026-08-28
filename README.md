@@ -2,21 +2,20 @@
 
 ## Infrastructure
 - VPS: <provider>, IP: <IP address>
-- OS: Ubuntu: 24.04 LTS
+- OS: Oracle Linux 9
 - 3 sites behind a single Nginx reverse proxy on port 80
 
 ## Deploy from scratch
 
 ### 1. Server prep
     ssh root<IP>
-    apt update && apt upgrade -y
-    apt install docker.io docker-compose-plugin -y
+    dnf update -y
+    dnf install docker docker-ce-cli container-selinux 
     
 ### 2. Firewall
-    ufw allow OpenSSH
-    ufw allow 80/tcp
-    ufw enable
-    ufw status
+    firewall-cmd --permanent --add-service=ssh
+    firewall-cmd --permanent --add-service=http
+    firewall-cmd --reload
     
 ### 3. SSH hardening
 Edit `/etc/ssh/sshd_config`:
